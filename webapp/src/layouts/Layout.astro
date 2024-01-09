@@ -17,9 +17,23 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<div id="app" class="relative h-screen p-2 gap-2">
+			<slot />
+		</div>
 	</body>
 </html>
+<style>
+	#app{
+		display: grid;
+		grid-template-rows: 1fr;
+		grid-template-columns: 320px 1fr;
+		@media (max-width: 640px) {
+			grid-template-rows: 140px 1fr;
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
 <style is:global>
 	:root {
 		--accent: 136, 58, 234;
@@ -34,19 +48,8 @@ const { title } = Astro.props;
 	}
 	html {
 		font-family: system-ui, sans-serif;
-		background: #13151a;
+		background: #a0a0a0;
 		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
 	}
 	
 </style>
