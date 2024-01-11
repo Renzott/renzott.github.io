@@ -1,7 +1,8 @@
 // create a new component named AsideDynamic.
 
 import { useEffect, useState } from "react";
-import MobileCard from "./MobileCard";
+import MobileCard from "./Sidebar/MobileCard";
+import DesktopSidebar from "./Sidebar/DesktopSidebar";
 
 // conditional: if max-width: 640px, then render "hello mobile", else render "hello desktop"
 
@@ -18,15 +19,9 @@ const AsideDynamic = () => {
     }, []);
 
     return (
-        <aside>
-            {isMobile ? <MobileCard /> : 
-            <>
-                <h1>Hello Desktop</h1>
-                <p>Desktop is {width}px wide</p>
-            </>
-            }
-            
-        </aside>
+        <>
+            {isMobile ? <MobileCard /> : <DesktopSidebar />}
+        </>
     );
 }
 

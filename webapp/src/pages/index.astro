@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
-import ProyectsTable from "../components/ProyectsTable";
+import Table from "../components/Table";
 import AsideDynamic from "../components/AsideDynamic";
 ---
 
@@ -10,7 +10,7 @@ import AsideDynamic from "../components/AsideDynamic";
 		<AsideDynamic client:only/>
 	</aside>
 	<div>
-		<ProyectsTable client:visible/>
+		<Table client:visible/>
 	</div>
 </Layout>
 
