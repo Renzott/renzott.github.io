@@ -1,6 +1,0 @@
-.container{
-
-    @apply h-full gap-4;
-    display: grid;
-    grid-template-rows: 180px 1fr;
-}
