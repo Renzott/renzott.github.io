@@ -34,11 +34,20 @@ jobs:
         with:
           node-version: '18'
           cache: 'pnpm'
-          cache-dependency-path: '**/pnpm-lock.yaml'
+          cache-dependency-path: 'frontend/pnpm-lock.yaml'
       
       - name: Install dependencies
         run: pnpm install
         working-directory: frontend
+
+      - name: Build the project
+        run: pnpm build
+      
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: frontend/build
 
   deploy:
     needs: build
@@ -47,6 +56,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+
+      - name: Download production artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: frontend/build
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
