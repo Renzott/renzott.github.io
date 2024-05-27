@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build
-          path: frontend/build
+          path: frontend/dist
 
   deploy:
     needs: build
@@ -60,12 +60,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: frontend/build
+          path: frontend/dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: frontend/build
+          publish_dir: frontend/dist
           
           
