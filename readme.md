@@ -5,8 +5,8 @@
 
 # 🛠️ Technologies and Tools
 
-<table style="width: 70%;">
-  <tr>
+<table style="width: 80%;">
+  <tr> 
     <td style="vertical-align: top;">
       <strong>Frontend</strong><br><br><br>
       <strong>Languages:</strong><br><br>
