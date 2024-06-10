@@ -1,21 +1,16 @@
-
 import HomeLayout from "../layouts/HomeLayout";
-/* import HiddenLanding from "../components/HiddenLanding";
-import Landing from "../components/Landing"; */
+import HiddenLanding from "../components/HiddenLanding";
 import StarsBackground from "../components/StarsBackground";
 import Landing from "../components/Landing";
+import Proyects from "../components/Proyects";
 
 const HomePage = () => {
-  
-
-  
-
   return (
     <HomeLayout>
-        <Landing />
-        <Landing />
-        <Landing />
-        <StarsBackground />
+      <HiddenLanding />
+      <StarsBackground />
+      <Landing />
+      <Proyects />
     </HomeLayout>
   );
 };

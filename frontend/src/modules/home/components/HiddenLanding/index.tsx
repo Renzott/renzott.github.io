@@ -25,7 +25,7 @@ const HiddenLanding: FC<HiddenLandingProps> = () => {
 
   return (
     <div
-      className="fixed inset-0 bg-gray-950 opacity-100 z-10"
+      className="fixed inset-0 bg-black opacity-100 z-10"
       ref={overlayRef}
     >
       

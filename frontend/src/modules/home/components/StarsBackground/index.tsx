@@ -14,7 +14,7 @@ const StarsBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const maxStarSize = 3;
   const minStarSize = 0.5;
-  const density = 0.0002;
+  const density = 0.00006;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -24,33 +24,26 @@ const StarsBackground = () => {
     if (!context) return;
 
     let animationFrameId: number;
+    let visible = true;
     const stars: Stars[] = [];
 
     const createStars = () => {
-      const numStars = Math.ceil(
-        window.innerWidth * window.innerHeight * density
-      );
+      const numStars = Math.ceil(window.innerWidth * window.innerHeight * density);
       stars.length = 0;
       for (let i = 0; i < numStars; i++) {
         stars.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
           alpha: Math.random(),
-          delta: Math.random() * 0.01 + 0.005,
+          delta: Math.random() * 0.001 + 0.005,
           rotation: Math.random() * Math.PI * 2,
-          rotationSpeed: Math.random() * 0.01 - 0.005,
+          rotationSpeed: Math.random() * 0.001 - 0.005,
         });
       }
     };
 
-    const drawStar = (
-      cx: number,
-      cy: number,
-      spikes: number,
-      outerRadius: number,
-      innerRadius: number,
-      rotation: number
-    ) => {
+    const drawStar = (cx: number, cy: number, outerRadius: number, innerRadius: number, rotation: number) => {
+      const spikes = 5;
       let rot = (Math.PI / 2) * 3 + rotation;
       let x = cx;
       let y = cy;
@@ -74,24 +67,27 @@ const StarsBackground = () => {
       context.fill();
     };
 
-    const drawCross = (
-      x: number,
-      y: number,
-      size: number,
-      alpha: number,
-      rotation: number
-    ) => {
+    const drawCross = (x: number, y: number, size: number, alpha: number, rotation: number) => {
+      const cos = Math.cos(rotation);
+      const sin = Math.sin(rotation);
+      
+      const x1 = x + cos * size;
+      const y1 = y + sin * size;
+      const x2 = x - cos * size;
+      const y2 = y - sin * size;
+      
+      const x3 = x + sin * size;
+      const y3 = y - cos * size;
+      const x4 = x - sin * size;
+      const y4 = y + cos * size;
+
       context.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-      context.save(); // Save current transformation matrix
-      context.translate(x, y); // Move origin to star position
-      context.rotate(rotation); // Rotate around star position
       context.beginPath();
-      context.moveTo(-size, 0);
-      context.lineTo(size, 0);
-      context.moveTo(0, -size);
-      context.lineTo(0, size);
+      context.moveTo(x1, y1);
+      context.lineTo(x2, y2);
+      context.moveTo(x3, y3);
+      context.lineTo(x4, y4);
       context.stroke();
-      context.restore(); // Restore original transformation matrix
     };
 
     const drawStars = () => {
@@ -100,46 +96,56 @@ const StarsBackground = () => {
         const starSize = maxStarSize * star.alpha;
         context.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
 
-        // Draw star shape with rotation
-        drawStar(star.x, star.y, 5, starSize, starSize / 2, star.rotation);
+        drawStar(star.x, star.y, starSize, starSize / 2, star.rotation);
 
-        // Draw cross for sparkle effect with rotation
         drawCross(star.x, star.y, starSize * 2, star.alpha, star.rotation);
 
         star.alpha += star.delta;
         if (star.alpha >= 1 || star.alpha <= minStarSize) {
           star.delta *= -1;
         }
-
-        // Update rotation
         star.rotation += star.rotationSpeed;
       });
     };
+
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       createStars();
     };
 
-    const debounceResize = debounce(resizeCanvas);
+    const debounceResize = debounce(resizeCanvas, 200);
 
     const animate = () => {
-      drawStars();
-      animationFrameId = requestAnimationFrame(animate);
+      if (visible) {
+        drawStars();
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      visible = !document.hidden;
+      if (visible) {
+        animate();
+      } else {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
 
     resizeCanvas();
     window.addEventListener("resize", debounceResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     animate();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", debounceResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
   return (
-    <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-1" />
+    <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10" />
   );
 };
 
