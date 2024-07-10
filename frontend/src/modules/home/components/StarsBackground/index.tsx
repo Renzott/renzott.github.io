@@ -8,13 +8,14 @@ interface Stars {
   delta: number;
   rotation: number;
   rotationSpeed: number;
+  blinkLive: number;
 }
 
 const StarsBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const maxStarSize = 3;
-  const minStarSize = 0.5;
-  const density = 0.00006;
+  const minStarSize = 0.2;
+  const density = 0.00001;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,7 +29,9 @@ const StarsBackground = () => {
     const stars: Stars[] = [];
 
     const createStars = () => {
-      const numStars = Math.ceil(window.innerWidth * window.innerHeight * density);
+      const numStars = Math.ceil(
+        window.innerWidth * window.innerHeight * density
+      );
       stars.length = 0;
       for (let i = 0; i < numStars; i++) {
         stars.push({
@@ -38,11 +41,18 @@ const StarsBackground = () => {
           delta: Math.random() * 0.001 + 0.005,
           rotation: Math.random() * Math.PI * 2,
           rotationSpeed: Math.random() * 0.001 - 0.005,
+          blinkLive: Math.floor(Math.random() * 10) + 5,
         });
       }
     };
 
-    const drawStar = (cx: number, cy: number, outerRadius: number, innerRadius: number, rotation: number) => {
+    const drawStar = (
+      cx: number,
+      cy: number,
+      outerRadius: number,
+      innerRadius: number,
+      rotation: number
+    ) => {
       const spikes = 5;
       let rot = (Math.PI / 2) * 3 + rotation;
       let x = cx;
@@ -67,15 +77,21 @@ const StarsBackground = () => {
       context.fill();
     };
 
-    const drawCross = (x: number, y: number, size: number, alpha: number, rotation: number) => {
+    const drawCross = (
+      x: number,
+      y: number,
+      size: number,
+      alpha: number,
+      rotation: number
+    ) => {
       const cos = Math.cos(rotation);
       const sin = Math.sin(rotation);
-      
+
       const x1 = x + cos * size;
       const y1 = y + sin * size;
       const x2 = x - cos * size;
       const y2 = y - sin * size;
-      
+
       const x3 = x + sin * size;
       const y3 = y - cos * size;
       const x4 = x - sin * size;
@@ -104,6 +120,26 @@ const StarsBackground = () => {
         if (star.alpha >= 1 || star.alpha <= minStarSize) {
           star.delta *= -1;
         }
+
+        // if maxLive is reached, decrease blinkLive
+        if (star.alpha < minStarSize) {
+          star.blinkLive--;
+        }
+
+        // if blinkLive is reached, delete star and add new one
+        if (star.blinkLive <= 0) {
+          star.x = Math.random() * window.innerWidth;
+          star.y = Math.random() * window.innerHeight;
+          star.alpha = Math.random();
+          star.delta = Math.random() * 0.001 + 0.005;
+          star.rotation = Math.random() * Math.PI * 2;
+          star.rotationSpeed = Math.random() * 0.001 - 0.005;
+          star.blinkLive = Math.floor(Math.random() * 10) + 5;
+        }
+
+        // Move star
+        //star.x += Math.cos(star.rotation) * 0.5;
+
         star.rotation += star.rotationSpeed;
       });
     };
@@ -145,7 +181,10 @@ const StarsBackground = () => {
   }, []);
 
   return (
-    <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10" />
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full -z-10"
+    />
   );
 };
 

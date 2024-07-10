@@ -1,4 +1,7 @@
 import { FC, ReactNode } from "react";
+import MainLayout from "../../../shared/layout/MainLayout";
+import StarsBackground from "../components/StarsBackground";
+import HiddenLanding from "../components/HiddenLanding";
 
 interface HomeLayoutProps {
     children: ReactNode;
@@ -6,9 +9,11 @@ interface HomeLayoutProps {
 
 const HomeLayout: FC<HomeLayoutProps> = ({ children }) => {
     return (
-        <div>
-            <div>{children}</div>
-        </div>
+        <MainLayout>
+            <HiddenLanding />
+            <StarsBackground />
+            <div className="">{children}</div>
+        </MainLayout>
     );
 }
 
