@@ -10,10 +10,9 @@ const ScrollMenu: FC<ScrollMenuProps> = () => {
     const divID = document.getElementById(id);
 
     if (divID) {
-      divID.scrollIntoView({ 
+      divID.scrollIntoView({
         behavior: "smooth",
-        
-    });
+      });
     }
   }, []);
 
@@ -67,25 +66,36 @@ const ScrollMenu: FC<ScrollMenuProps> = () => {
 
   return (
     <div
-      className="fixed w-[120px] right-0 h-[100vh] flex flex-col justify-center translate-x-[105px] hover:translate-x-0 transform transition-transform duration-300"
+      className="fixed w-[120px] right-0 h-[100vh] flex flex-col justify-center translate-x-[105px]"
       ref={scrollDiv}
     >
-        
-      <div className="cursor-pointer">
+      <div className="cursor-pointer hover:-translate-x-[105px] -translate-x-0 transform transition-transform duration-300">
         <div
-          className={"landing" === currentSection ? "bg-blue-700 text-white p-4" : "bg-blue-500 text-white p-4"}
+          className={
+            "landing" === currentSection
+              ? "bg-blue-700 text-white p-4"
+              : "bg-blue-500 text-white p-4"
+          }
           onClick={() => handleScrollTo("landing")}
         >
           <a>Landing</a>
         </div>
         <div
-          className={"about" === currentSection ? "bg-blue-700 text-white p-4" : "bg-blue-500 text-white p-4"}
+          className={
+            "about" === currentSection
+              ? "bg-blue-700 text-white p-4"
+              : "bg-blue-500 text-white p-4"
+          }
           onClick={() => handleScrollTo("about")}
         >
           <a>About</a>
         </div>
         <div
-          className={"proyects" === currentSection ? "bg-blue-700 text-white p-4" : "bg-blue-500 text-white p-4"}
+          className={
+            "proyects" === currentSection
+              ? "bg-blue-700 text-white p-4"
+              : "bg-blue-500 text-white p-4"
+          }
           onClick={() => handleScrollTo("proyects")}
         >
           <a>Proyects</a>
