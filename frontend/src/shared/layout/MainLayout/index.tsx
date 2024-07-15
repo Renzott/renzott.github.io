@@ -8,8 +8,8 @@ interface MainLayoutProps {
 const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 
   return (
-    <div>
-      <div>{children}</div>
+    <div className="w-screen">
+      {children}
     </div>
   );
 };

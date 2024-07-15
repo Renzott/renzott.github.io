@@ -6,10 +6,10 @@ interface DeveloperInfoProps extends React.HTMLAttributes<HTMLDivElement> {}
 const DeveloperInfo: FC<DeveloperInfoProps> = ({ ...props }) => {
   return (
     <div
-      className="h-screen flex items-center justify-center bg-gray-950"
+      className="h-screen w-screen flex items-center justify-center bg-gray-950"
       {...props}
     >
-      <div className="text-pretty">
+      <div className="text-pretty mx-2">
         <Typography
           variant="h4"
           className="text-white text-center"
