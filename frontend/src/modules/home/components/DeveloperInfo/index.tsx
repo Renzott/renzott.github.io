@@ -1,9 +1,20 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Typography from "../../../../shared/components/Typography";
 
 interface DeveloperInfoProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const DeveloperInfo: FC<DeveloperInfoProps> = ({ ...props }) => {
+  const [isClicked, setIsClicked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = () => {
+    setIsClicked(true);
+    setIsHovered(false);
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 10000);
+  };
+
   return (
     <div
       className="h-screen w-screen flex items-center justify-center bg-gray-950"
@@ -23,12 +34,45 @@ const DeveloperInfo: FC<DeveloperInfoProps> = ({ ...props }) => {
           text="🚀 Web Developer"
         />
         <br />
-        <Typography
-          variant="h4"
-          className="text-green-400 text-center font-bold "
-          text="🌟 Abierto a ofertas laborales"
-        />
-        <br />
+        {!isClicked ? (
+          <a
+            href="mailto:richard.q.contact@proton.me"
+            onClick={handleClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <Typography
+              variant="h4"
+              className={`text-green-400 text-center font-bold ${
+                isHovered && "rainbowText"
+              }`}
+              text="🌟 Abierto a ofertas laborales"
+            />
+            <Typography
+              variant="subtitle4"
+              className={`text-green-400 text-center font-bold ${
+                isHovered && "rainbowText"
+              }`}
+              text="(click para contacto)"
+            />
+            <br />
+          </a>
+        ) : (
+          <div>
+            <Typography
+              variant="h4"
+              className="text-green-400 text-center font-bold"
+              style={{ userSelect: "none", WebkitUserSelect: "none" }}
+              text="🌟 "
+            />
+            <Typography
+              variant="subtitle1"
+              className="text-green-400 text-center font-bold"
+              text="richard.q.contact@proton.me"
+            />
+          </div>
+        )}
+
         <Typography
           variant="h4"
           className="text-white text-center"

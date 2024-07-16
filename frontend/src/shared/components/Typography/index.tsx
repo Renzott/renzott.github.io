@@ -21,7 +21,7 @@ interface TypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant: keyof typeof Variants;
 }
 
-const Typography: FC<TypographyProps> = ({ text, variant, className}) => {
+const Typography: FC<TypographyProps> = ({ text, variant, className, style}) => {
 
 
     const tailwindClasses = {
@@ -43,7 +43,7 @@ const Typography: FC<TypographyProps> = ({ text, variant, className}) => {
 
 
   return (
-    <span className={cn(tailwindClasses[variant], className)}>
+    <span className={cn(tailwindClasses[variant], className)} style={style}>
         {text}
     </span>
   );
